@@ -69,7 +69,7 @@ def print_inventory_items(items):
     <BLANKLINE>
 
     """
-    print("You have", list_of_items(inventory), "here.\n")
+    print("You have " + list_of_items(inventory) + ".\n")
 
 
 def print_room(room):
@@ -130,8 +130,9 @@ def print_room(room):
     # COMPLETE ME!
     #
 
-    print (print_room_items(room))
-    print()
+    if not (print_room_items(room) == None):
+        print(print_room_items(room))
+
 
 def exit_leads_to(exits, direction):
     """This function takes a dictionary of exits and a direction (a particular
