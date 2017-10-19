@@ -244,7 +244,7 @@ def execute_go(direction):
 
     global current_room #global needed to modify the global version of the variable, not a local function version
     try: #will try to run the following code
-        new_room = rooms[current_room["exits"]["direction"]]
+        new_room = rooms[current_room["exits"][direction]] #lookup exits key of current_room dictionary for the direction given in the function
         current_room = new_room
     except KeyError: #will run the following code if this error occurs running the above code
         print("You cannot go there.")
@@ -260,12 +260,16 @@ def execute_take(item_id):
     """
 
     try:
-        item_totake = items[item_id] #looks up the item_id that is passed into the items dictionary
-
-
-
+        totake = items[item_id] #looks up the item_id that is passed into the items dictionary
     except KeyError:
         print("You cannot take that.")
+
+    if totake in current_room["items"]: #checks if the item_id is in the current room dictionary
+        inventory.append(totake) #adds the item_id to the player's inventory
+        current_room["items"].remove(totake) #removes the item_id from the current room dictionary of items
+    else:
+        print("You cannot take that.")
+
     
 
 def execute_drop(item_id):
@@ -273,7 +277,15 @@ def execute_drop(item_id):
     player's inventory to list of items in the current room. However, if there is
     no such item in the inventory, this function prints "You cannot drop that."
     """
-    pass
+
+    try:
+        todrop = items[item_id] #looks up the item_id that is passed into the items dictionary
+    except KeyError:
+        print("You cannot drop that.")
+
+    if todrop in inventory:
+        current_room["items"].append(todrop) #adds the item_id to the current room's items dictionary
+        inventory.remove(todrop) #removes the item_id from the player's inventory dictionary
     
 
 def execute_command(command):
