@@ -265,8 +265,11 @@ def execute_take(item_id):
         print("You cannot take that.")
 
     if totake in current_room["items"]: #checks if the item_id is in the current room dictionary
-        inventory.append(totake) #adds the item_id to the player's inventory
-        current_room["items"].remove(totake) #removes the item_id from the current room dictionary of items
+        if (calcmass(inventory) + totake["mass"]) > 3000: #checks if total mass is under 3000
+            print("You cannot take that, you're carrying too much weight!")
+        else:
+            inventory.append(totake) #adds the item_id to the player's inventory
+            current_room["items"].remove(totake) #removes the item_id from the current room dictionary of items
     else:
         print("You cannot take that.")
 
@@ -358,6 +361,12 @@ def move(exits, direction):
     # Next room to go to
     return rooms[exits[direction]]
 
+def calcmass(inventory):
+    totalmass = 0
+    for items in inventory:
+        totalmass = totalmass + items["mass"]
+    return totalmass
+
 # This is the entry point of our program
 def main():
 
@@ -373,6 +382,9 @@ def main():
         # Execute the player's command
         execute_command(command)
 
+        if items["pen"] in inventory:
+            print("Congrats! You picked up the pen, maybe you can write some notes now!")
+            exit()
 
 
 # Are we being run as a script? If so, run main().
