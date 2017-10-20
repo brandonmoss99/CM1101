@@ -358,7 +358,6 @@ def move(exits, direction):
     # Next room to go to
     return rooms[exits[direction]]
 
-
 # This is the entry point of our program
 def main():
 
